@@ -16,4 +16,7 @@ class Person {
     public void clear() {
 	    cleared = true;
     }
+    public boolean isCleared() {
+	    return cleared;
+    }
 }

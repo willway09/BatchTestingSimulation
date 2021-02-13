@@ -18,13 +18,11 @@ class Main {
             
             int repetitionValues[] = new int[numberOfRepititions];
             
-            Batch testTypes[] = { new TwoLevel(twoTestOut) };
+            Batch testTypes[] = { new TwoLevel(twoTestOut), new MultiTwoLevel(multiTwoTestOut) };
+
 
 
             int N = 100;
-            
-
-
 
             for(int n = 1; n < N; n++) {
                 for(int pInt = 1; pInt < 100; pInt++) {

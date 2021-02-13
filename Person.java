@@ -1,5 +1,6 @@
 class Person {
     private boolean state;
+    private boolean cleared = false;
     
     public Person(boolean state) {
         this.state = state;
@@ -11,5 +12,8 @@ class Person {
     
     public String toString() {
         return "" + state;
+    }
+    public void clear() {
+	    cleared = true;
     }
 }

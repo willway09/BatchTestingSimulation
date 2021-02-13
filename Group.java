@@ -32,6 +32,9 @@ class Group {
                 return positive;
             }
         }
+	for(Person person : array) {
+		person.clear();
+	}
         return positive;
     }
     

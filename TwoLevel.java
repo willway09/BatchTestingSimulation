@@ -4,9 +4,31 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-class TwoLevel implements Batch {
-    public int runTrial(int N, int n, double p, int swapCount) {
-            
+class TwoLevel extends Batch {
+
+    public TwoLevel(FileWriter out) {
+	    super(out);
+    }
+
+    public void runTrial(int N, int n, double p, int swapCount, int repetitionValues[]) throws IOException {
+       for(int i = 0; i < repetitionValues.length; i++) {
+                   
+           repetitionValues[i] = internalComputation(N, n, p, swapCount);
+                   
+        }
+               
+        double mean = Stat.average(repetitionValues);
+        double stdDev = Stat.standardDeviation(repetitionValues, mean);
+               
+        out.write("" + N + ", " + n + ", " + p + ", " + mean + ", " + stdDev + "\n");
+                       
+
+
+    }
+
+
+
+    public int internalComputation(int N, int n, double p, int swapCount) {
             Person persons[] = new Person[N];
             
             for(int i = 0; i < N; i++) {

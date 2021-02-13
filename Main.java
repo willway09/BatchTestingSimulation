@@ -9,43 +9,39 @@ class Main {
 
             int swapCount = 100;
             
-            File file = new File("file/TwoTestOut.csv");
-        
-            FileWriter out = new FileWriter(file);
             
-            int N = 100;
-            
+            FileWriter twoTestOut = new FileWriter(new File("file/TwoTestOut.csv"));
+            FileWriter multiTestOut = new FileWriter(new File("file/MultiTestOut.csv"));
+            FileWriter multiTwoTestOut = new FileWriter(new File("file/MultiTwoTestOut.csv"));
+
             int numberOfRepititions = 100;
             
             int repetitionValues[] = new int[numberOfRepititions];
             
-            Batch testTypes[] = { new TwoLevel() };
-                
+            Batch testTypes[] = { new TwoLevel(twoTestOut) };
+
+
+            int N = 100;
+            
+
+
+
             for(int n = 1; n < N; n++) {
                 for(int pInt = 1; pInt < 100; pInt++) {
                     double p = pInt / 100.0;
                     
                     for(Batch test : testTypes) {
-                    
-                        for(int i = 0; i < numberOfRepititions; i++) {
-                            
-                            repetitionValues[i] = test.runTrial(N, n, p, swapCount);
-                            
-                        }
-                        
-                        double mean = Stat.average(repetitionValues);
-                        double stdDev = Stat.standardDeviation(repetitionValues, mean);
-                        
-                        out.write("" + N + ", " + n + ", " + p + ", " + mean + ", " + stdDev + "\n");
-                        
+                    	test.runTrial(N, n, p, swapCount, repetitionValues) ;
                     }
                     
                 }
             
             }
             
-            out.close();
 
+            twoTestOut.close();
+            multiTestOut.close();
+            multiTwoTestOut.close();
             
     }
     

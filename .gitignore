@@ -1,0 +1,6 @@
+*.class
+src/*.class
+file/*
+data.db
+tags
+memory-journal

@@ -1,8 +1,8 @@
-all: *.java
-	javac -cp . *.java
+all: src/*.java
+	javac -cp "src;sqlite-jdbc-3.34.0.jar" src/*.java
 
 clean:
-	rm *.class
+	rm src/*.class
 	
 zip:
 	zip out.zip *

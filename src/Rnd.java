@@ -4,6 +4,10 @@ import java.util.Random;
 
 class Rnd {
 
+    static {
+	    System.loadLibrary("Rnd");
+    }
+
     public static Random rnd = new Random();
 
     public static int[] generateSwapArray(int N, int swapCount) {
@@ -25,4 +29,6 @@ class Rnd {
 		persons[i] = temp;
 	}
     }
+
+    public native boolean[] createShuffledArray(int N, double p);
 }

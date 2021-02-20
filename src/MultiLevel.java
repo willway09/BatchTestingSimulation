@@ -3,13 +3,14 @@ package src;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.util.ArrayList;
-
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+
+
+import java.util.ArrayList;
 
 class MultiLevel extends Batch {
 
@@ -32,14 +33,12 @@ class MultiLevel extends Batch {
             double stdDev = Stat.standardDeviation(repetitionValues, mean);
 
             //out.write("" + N + ", " + n + ", " + m + ", " + p + ", " + mean + ", " + stdDev + "\n");
-            //out.write("" + N + ", " + n + ", " + m + ", " + p + ", " + mean + ", " + stdDev + "\n");
-            out.setInt(1, n);
-	    out.setDouble(2, p);
-	    out.setInt(3, m);
-	    out.setDouble(4, mean);
-	    out.setDouble(5, stdDev);
-	    out.executeUpdate();
-
+		out.setInt(1, n);
+		out.setDouble(2, p);
+		out.setInt(3, m);
+		out.setDouble(4, mean);
+		out.setDouble(5, stdDev);
+		out.executeUpdate();
         }
 
 
@@ -49,7 +48,11 @@ class MultiLevel extends Batch {
 
 
     public int internalComputation(int N, int n, int m, double p, int swapCount) {
-        Person persons[] = new Person[N];
+        Person persons[] = Person.createPersonsArray(N, p);
+
+
+	/*
+	= new Person[N];
 
         for(int i = 0; i < N; i++) {
             if(i < Math.round(p * N)) { //Should we round or floor?
@@ -59,7 +62,13 @@ class MultiLevel extends Batch {
             }
         }
 
-	Rnd.shuffle(persons);
+        int array[] = Rnd.generateSwapArray(N,swapCount);
+
+        for(int i = 0; i < array.length / 2; i++) {
+            Person temp = persons[array[i]];
+            persons[array[i]] = persons[array[i + 1]];
+            persons[array[i + 1]] = temp;
+        }*/
 
             /*for(Person person : persons) {
                 System.out.println(person);
@@ -124,7 +133,6 @@ class MultiLevel extends Batch {
             sumOfTests++; //Test for group
 
             if(group.testGroup()) {
-                //FIXME
 
                 for (int j = 0; j < (n / m); j++) {
                     subgroups.add(new Group(persons, m * j, m * (j + 1)));
@@ -140,10 +148,11 @@ class MultiLevel extends Batch {
 
                         try {
                             for (int k = 0; k < remainder; k++) {
-                                subgroups.get(k % groups.size()).addMember(persons[k + baseOfRemainder]);
+                                subgroups.get(k % subgroups.size()).addMember(persons[k + baseOfRemainder]);
                             }
-                        } catch (Exception e) {
+                        } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println(e);
+		    	    System.out.println("This is the spot");
 
 
                             System.out.println(n);
@@ -176,7 +185,6 @@ class MultiLevel extends Batch {
 
 
 
-                    //FIXME
             }
         }
 
@@ -187,4 +195,3 @@ class MultiLevel extends Batch {
         return 1;
     }
 }
-

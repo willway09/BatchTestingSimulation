@@ -16,11 +16,38 @@ import java.sql.ResultSet;
 
 import java.util.ArrayList;
 
+
+import java.util.Vector;
+
+
 class Main {
-    public static void main(String[] args) throws IOException, SQLException {
-            
+    /*private static java.lang.reflect.Field LIBRARIES = null;
+    static {
+	    try {
+        	LIBRARIES = ClassLoader.class.getDeclaredField("loadedLibraryNames");
+        	LIBRARIES.setAccessible(true);
+
+	    } catch(Exception e) {
+		    System.out.println(e);
+	
+	    
+	    }
+    }
+    public static String[] getLoadedLibraries(final ClassLoader loader) throws Exception {
+        final Vector<String> libraries = (Vector<String>) LIBRARIES.get(loader);
+        return libraries.toArray(new String[] {});
+    }*/
+
+    public static void main(String[] args) throws IOException, SQLException, Exception {
+	   /*String[] libraries = Main.getLoadedLibraries(ClassLoader.getSystemClassLoader()); //MyClassName.class.getClassLoader()
+	   for(String s: libraries) {
+		   System.out.println(s);
+	   }/
+	   System.out.println(System.getProperty("java.library.path"));*/
+
+
 	    //Clear database file for new write
-	    (new File("file/data.db")).delete();
+	   (new File("file/data.db")).delete();
 
 	    
 	    Connection c = null;
@@ -73,7 +100,7 @@ class Main {
 				testTypes.add(new TwoLevel(twoTestOut));
 				break;
 			case "MultiLevel":
-				testTypes.add(new MultiLevel(multiTwoTestOut));
+				testTypes.add(new MultiLevel(multiTestOut));
 				break;
 			case "MultiTwoLevel":
 				testTypes.add(new MultiTwoLevel(multiTwoTestOut));
@@ -86,7 +113,7 @@ class Main {
 	    if(testTypes.size() == 0) {
 
 		testTypes.add(new TwoLevel(twoTestOut));
-		testTypes.add(new MultiLevel(multiTwoTestOut));
+		testTypes.add(new MultiLevel(multiTestOut));
 		testTypes.add(new MultiTwoLevel(multiTwoTestOut));
 
 	    }
@@ -96,6 +123,7 @@ class Main {
 
 
             int N = 100;
+	    //int N = 280000;
 
             for(int n = 1; n < N; n++) {
                 for(int pInt = 1; pInt < 100; pInt++) {
@@ -122,10 +150,10 @@ class Main {
 	    sql = "CREATE TABLE external.TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);";
 	    stmt.executeUpdate(sql);
 	    
-	    sql = "CREATE TABLE external.MultiLevel (n INT, p REAL, m REAL, mean REAL, stdDev REAL);";
+	    sql = "CREATE TABLE external.MultiLevel (n INT, p REAL, m INT, mean REAL, stdDev REAL);";
 	    stmt.executeUpdate(sql);
 	    
-	    sql = "CREATE TABLE external.MultiTwoLevel (n INT, p REAL, r REAL, mean REAL, stdDev REAL);";
+	    sql = "CREATE TABLE external.MultiTwoLevel (n INT, p REAL, r INT, mean REAL, stdDev REAL);";
 	    stmt.executeUpdate(sql);
 
 	    sql = "BEGIN;INSERT INTO external.TwoLevel SELECT * FROM TwoLevel;COMMIT;"; 

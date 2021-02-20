@@ -36,17 +36,7 @@ class TwoLevel extends Batch {
 
 
     public int internalComputation(int N, int n, double p, int swapCount) {
-            Person persons[] = new Person[N];
-            
-            for(int i = 0; i < N; i++) {
-                if(i < Math.round(p * N)) { //Should we round or floor?
-                    persons[i] = new Person(true);
-                } else {
-                    persons[i] = new Person(false);
-                }
-            }
-            
-          Rnd.shuffle(persons);  
+            Person persons[] = Person.createPersonsArray(N, p);
 
             /*for(Person person : persons) {
                 System.out.println(person);

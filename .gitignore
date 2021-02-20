@@ -1,5 +1,8 @@
 *.class
 src/*.class
+src/*.o
+src/*.dll
+*.dll
 file/*
 data.db
 tags

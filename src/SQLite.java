@@ -3,7 +3,7 @@ package src;
 import java.sql.*;
 
 public class SQLite {
-	public static void main(String args[]) throws Exception { 
+	public static void main(String args[]) throws Exception {
 		Connection c = null;
 		c = DriverManager.getConnection("jdbc:sqlite:data.db");
 

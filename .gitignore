@@ -3,7 +3,17 @@ src/*.class
 src/*.o
 src/*.dll
 *.dll
+*.so
 file/*
 data.db
 tags
 memory-journal
+.RData
+.Rhistory
+Rplots.pdf
+img
+out.png
+finalimg
+oldmain
+
+

@@ -12,11 +12,11 @@ import java.sql.PreparedStatement;
 abstract class Batch {
 
 
-    Batch(PreparedStatement out) {
-	this.out = out;
-    }
+	Batch(PreparedStatement out) {
+		this.out = out;
+	}
 
-    public abstract void runTrial(int N, int n, double p, int swapCount, int repetitionsValue[]) throws IOException, SQLException;
-    public PreparedStatement out;
-    public abstract int getType();
+	public abstract void runTrial(int N, int n, double p, int swapCount, long repetitionsValue[]) throws IOException, SQLException;
+	public PreparedStatement out;
+	public abstract int getType();
 }

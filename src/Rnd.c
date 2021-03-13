@@ -13,7 +13,7 @@ JNIEXPORT jbooleanArray JNICALL Java_src_Rnd_createShuffledArray (JNIEnv* env, j
 	if(tm == 0) {
 		tm = (unsigned long long)time(NULL);
 	}
-	
+
 	srand(tm);
 	jboolean* shuffled = malloc(N * sizeof(jboolean));
 

@@ -25,6 +25,8 @@ JNIEXPORT jbooleanArray JNICALL Java_src_Rnd_createShuffledArray (JNIEnv* env, j
 		}
 	}
 
+	
+
 	for(int i = N - 1; i >=1; i--) {
 		int j = rand() % (i + 1);
 		jboolean temp = shuffled[j];
@@ -35,6 +37,9 @@ JNIEXPORT jbooleanArray JNICALL Java_src_Rnd_createShuffledArray (JNIEnv* env, j
 	jdoubleArray out = (*env)->NewBooleanArray(env, N);
 	if (out == NULL) return NULL;
 	(*env)->SetBooleanArrayRegion(env, out, 0, N, shuffled);
+
+
+	free(shuffled);
 
 	//Increment so that a new seed comes next time
 	tm++;

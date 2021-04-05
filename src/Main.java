@@ -47,9 +47,8 @@ class Main {
 
 
 		//Clear database file for new write
-		(new File("file/data.db")).delete();
-		System.out.println(System.getProperty("java.library.path"));
-
+		//(new File("file/data.db")).delete();
+		//System.out.println(System.getProperty("java.library.path"));
 
 		Connection c = null;
 		//c = DriverManager.getConnection("jdbc:sqlite:file/data.db");
@@ -77,16 +76,11 @@ class Main {
 		FileWriter multiTestOut = new FileWriter(new File("file/MultiTestOut.csv"));
 		FileWriter multiTwoTestOut = new FileWriter(new File("file/MultiTwoTestOut.csv"));*/
 
-
-
-
 		PreparedStatement twoTestOut = c.prepareStatement("INSERT INTO TwoLevel (n, p, mean, stdDev) values (?, ?, ?, ?);");
 
 		PreparedStatement multiTestOut = c.prepareStatement("INSERT INTO MultiLevel (n, p, m, mean, stdDev) values (?, ?, ?, ?, ?);");
 
 		PreparedStatement multiTwoTestOut = c.prepareStatement("INSERT INTO MultiTwoLevel (n, p, r, mean, stdDev) values (?, ?, ?, ?, ?);");
-
-		int swapCount = 100;
 
 		int numberOfRepititions = 1000;
 
@@ -95,43 +89,89 @@ class Main {
 		ArrayList<Batch> testTypes = new ArrayList<Batch>();
 		testTypes.ensureCapacity(3);
 
-		for(String arg : args) {
-			switch(arg) {
-			case "TwoLevel":
-				testTypes.add(new TwoLevel(twoTestOut));
-				break;
-			case "MultiLevel":
-				testTypes.add(new MultiLevel(multiTestOut));
-				break;
-			case "MultiTwoLevel":
-				testTypes.add(new MultiTwoLevel(multiTwoTestOut));
-				break;
-			}
-		}
-
-
-		//Case where no arguments are specified
-		if(testTypes.size() == 0) {
-
-			testTypes.add(new TwoLevel(twoTestOut));
-			testTypes.add(new MultiLevel(multiTestOut));
-			testTypes.add(new MultiTwoLevel(multiTwoTestOut));
-
-		}
-
-		//int N = 100;
+		int pInt = 1;
 		int N = 5000;
-		//int N = 16;
-		//int N = 280000;
 
-		for(int n = 1; n <= /*N*/100; n++) {
+		for(int i = 0; i < args.length; i++) {
+			switch(args[i]) {
+				case "TwoLevel":
+					testTypes.add(new TwoLevel(twoTestOut));
+					break;
+				case "MultiLevel":
+					testTypes.add(new MultiLevel(multiTestOut));
+					break;
+				case "MultiTwoLevel":
+					testTypes.add(new MultiTwoLevel(multiTwoTestOut));
+					break;
+
+				case "p":
+					i++;
+					if(i >= args.length) {
+						System.err.println("Expected integer argument after p");
+						System.exit(1);
+					}
+					try {
+						pInt = Integer.parseInt(args[i]);
+					} catch(NumberFormatException e) {
+						System.err.println("Expected integer argument after p");
+						System.exit(1);
+					}
+					break;
+
+				case "N":
+					i++;
+					if(i >= args.length) {
+						System.err.println("Expected integer argument after N");
+						System.exit(1);
+					}
+					try {
+						N = Integer.parseInt(args[i]);
+					} catch(NumberFormatException e) {
+						System.err.println("Expected integer argument after N");
+						System.exit(1);
+					}
+					break;
+
+				default:
+					System.err.print("Illegal argument detected: ");
+					System.err.println(args[i]);
+					System.exit(1);
+					break;
+			}
+
+		}
+
+		if(testTypes.size() == 0) {
+			System.err.print("Must specify at least one test type");
+			System.exit(1);
+		}
+
+
+
+		System.out.print("Running ");
+
+		for(int i = 0; i < testTypes.size(); i++) {
+			System.out.print(testTypes.get(i).getName());
+			if(i != testTypes.size() - 1) {
+				System.out.print(",");
+			}
+			System.out.print(" ");
+		}
+		
+		System.out.print("at p=");
+		System.out.print(pInt);
+		System.out.print("% and N=");
+		System.out.println(N);
+
+
+		for(int n = 1; n <= 100; n++) {
 			//for(int pInt = 1; pInt < 100; pInt++)
-			int pInt = 1;
+			//int pInt = 1;
 			{
 				double p = pInt / 100.0;
 
 				for(Batch test : testTypes) {
-					test.runTrial(N, n, p, swapCount, repetitionValues) ;
+					test.runTrial(N, n, p, repetitionValues) ;
 				}
 
 			}
@@ -148,14 +188,14 @@ class Main {
 		sql = "ATTACH \"file/data.db\" AS external;";
 		stmt.executeUpdate(sql);
 
-		sql = "CREATE TABLE external.TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);";
+		/*sql = "CREATE TABLE external.TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE external.MultiLevel (n INT, p REAL, m INT, mean REAL, stdDev REAL);";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE external.MultiTwoLevel (n INT, p REAL, r INT, mean REAL, stdDev REAL);";
-		stmt.executeUpdate(sql);
+		stmt.executeUpdate(sql);*/
 
 		sql = "BEGIN;INSERT INTO external.TwoLevel SELECT * FROM TwoLevel;COMMIT;";
 		stmt.executeUpdate(sql);

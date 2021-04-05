@@ -14,36 +14,15 @@ class MultiLevel extends Batch {
 		super(out);
 	}
 
-	public void runTrial(int N, int n, double p, int swapCount, long repetitionValues[]) throws IOException, SQLException {
+	public void runTrial(int N, int n, double p, long repetitionValues[]) throws IOException, SQLException {
 		for(int m = 1; m < n; m++)
 		//int m = 3;
 		{
 			for(int i = 0; i < repetitionValues.length; i++) {
 				Person persons[] = Person.createPersonsArray(N, p);
-				/*Person persons[] = {
-					new Person(true),
-					new Person(false),
-					new Person(false),
-					new Person(false),
-
-					new Person(true),
-					new Person(true),
-					new Person(false),
-					new Person(false),
-
-					new Person(true),
-					new Person(false),
-					new Person(true),
-					new Person(false),
-
-					new Person(false),
-					new Person(false),
-					new Person(false),
-					new Person(false)
-				};*/
 
 				int sizes[] = {m, n};
-				repetitionValues[i] = internalComputation(sizes, swapCount, persons, 0, 1);
+				repetitionValues[i] = internalComputation(sizes, persons, 0, 1);
 
 			}
 
@@ -66,7 +45,7 @@ class MultiLevel extends Batch {
 		}
 	}
 
-	public long internalComputation(int sizes[], int swapCount, Person persons[], long sumOfTests, int level) {
+	public long internalComputation(int sizes[], Person persons[], long sumOfTests, int level) {
 
 		ArrayList<Group> groups = new ArrayList<Group>();
 		groups.ensureCapacity((persons.length / sizes[level]) + 1);
@@ -126,7 +105,7 @@ class MultiLevel extends Batch {
 					sumOfTests += group.getSize(); //If positive group, test each individual members
 				} else {
 					//Recursion
-					sumOfTests = internalComputation(sizes, swapCount, group.getInternalArray(), sumOfTests, level - 1);
+					sumOfTests = internalComputation(sizes, group.getInternalArray(), sumOfTests, level - 1);
 				}
 
 
@@ -140,5 +119,10 @@ class MultiLevel extends Batch {
 
 	public int getType() {
 		return 0;
+	}
+
+
+	public String getName() {
+		return "Multi-Level";
 	}
 }

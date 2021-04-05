@@ -16,7 +16,8 @@ abstract class Batch {
 		this.out = out;
 	}
 
-	public abstract void runTrial(int N, int n, double p, int swapCount, long repetitionsValue[]) throws IOException, SQLException;
+	public abstract void runTrial(int N, int n, double p, long repetitionsValue[]) throws IOException, SQLException;
 	public PreparedStatement out;
 	public abstract int getType();
+	public abstract String getName();
 }

@@ -36,5 +36,8 @@ JNIEXPORT jbooleanArray JNICALL Java_src_Rnd_createShuffledArray (JNIEnv* env, j
 	if (out == NULL) return NULL;
 	(*env)->SetBooleanArrayRegion(env, out, 0, N, shuffled);
 
+	//Increment so that a new seed comes next time
+	tm++;
+
 	return out;
 }

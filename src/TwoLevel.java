@@ -14,28 +14,41 @@ class TwoLevel extends Batch {
 		super(out);
 	}
 
-	public void runTrial(int N, int n, double p, int swapCount, long repetitionValues[]) throws IOException, SQLException {
+	public void runTrial(int N, int n, double p, long repetitionValues[]) throws IOException, SQLException {
 		for(int i = 0; i < repetitionValues.length; i++) {
 
-			repetitionValues[i] = internalComputation(N, n, p, swapCount);
+			repetitionValues[i] = internalComputation(N, n, p);
 
 		}
 
+
+		for(long i : repetitionValues) {
+			System.out.print(i);
+			System.out.print(",");
+		}
+
+
 		double mean = Stat.average(repetitionValues);
 		double stdDev = Stat.standardDeviation(repetitionValues, mean);
+
+		System.out.print(mean);
+		System.out.print(",");
+		System.out.println(stdDev);
 
 		//out.write("" + N + ", " + n + ", " + p + ", " + mean + ", " + stdDev + "\n");
 		out.setInt(1, n);
 		out.setDouble(2, p);
 		out.setDouble(3, mean);
 		out.setDouble(4, stdDev);
-		out.executeUpdate();
+
+		//UNCOMMENT ME!!!!!!!!!!!!
+		//out.executeUpdate();
 
 	}
 
 
 
-	public long internalComputation(int N, int n, double p, int swapCount) {
+	public long internalComputation(int N, int n, double p) {
 		Person persons[] = Person.createPersonsArray(N, p);
 
 		/*for(Person person : persons) {
@@ -110,5 +123,9 @@ class TwoLevel extends Batch {
 
 	public int getType() {
 		return 0;
+	}
+	
+	public String getName() {
+		return "Two-Level";
 	}
 }

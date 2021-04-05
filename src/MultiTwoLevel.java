@@ -18,12 +18,12 @@ class MultiTwoLevel extends Batch {
 		super(out);
 	}
 
-	public void runTrial(int N, int n, double p, int swapCount, long repetitionValues[]) throws IOException, SQLException {
+	public void runTrial(int N, int n, double p, long repetitionValues[]) throws IOException, SQLException {
 		for(int r = 1; r <= 10; r++) {
 
 			for(int i = 0; i < repetitionValues.length; i++) {
 
-				repetitionValues[i] = internalComputation(N, n, r, p, swapCount);
+				repetitionValues[i] = internalComputation(N, n, r, p);
 
 			}
 
@@ -45,7 +45,7 @@ class MultiTwoLevel extends Batch {
 
 
 
-	public long internalComputation(int N, int n, int r, double p, int swapCount) {
+	public long internalComputation(int N, int n, int r, double p) {
 		Person persons[] = Person.createPersonsArray(N, p);
 		/*= new Person[N];
 
@@ -140,5 +140,10 @@ class MultiTwoLevel extends Batch {
 
 	public int getType() {
 		return 0;
+	}
+
+	public String getName() {
+		return "Multi Two-Level";
+
 	}
 }

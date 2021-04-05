@@ -1,0 +1,74 @@
+#!/bin/sh
+
+if [ -e "file/data.db" ]
+then
+	echo "Not creating database"
+
+else
+	echo "Creating database"
+
+	sqlite3 file/data.db "CREATE TABLE TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);"
+	sqlite3 file/data.db "CREATE TABLE MultiLevel (n INT, p REAL, m REAL, mean REAL, stdDev REAL);"
+	sqlite3 file/data.db "CREATE TABLE MultiTwoLevel (n INT, p REAL, r REAL, mean REAL, stdDev REAL);"
+
+fi
+
+
+maxMultiP=$(sqlite3 file/data.db "SELECT 100 * MAX(p) FROM MultiLevel;")
+if [ -z $maxMultiP  ]
+then
+	maxMultiP=0
+fi
+
+echo $maxMultiP
+
+maxMultiTwoP=$(sqlite3 file/data.db "SELECT 100 * MAX(p) FROM MultiTwoLevel;")
+if [ -z $maxMultiTwoP ]
+then
+	matMultiTwoP=0
+fi
+
+echo $maxMultiTwoP
+
+#For MultiLevel
+for i in {0..100..5}
+do
+	if [ $i -eq 0 ]
+	then
+		i=1
+	fi
+
+
+	if [ $i -lt $maxMultiP ]
+	then
+		continue
+	fi
+
+	echo "Running ${i}"	
+	java -cp ".:sqlite-jdbc-3.34.0.jar" src/Main MultiLevel $i
+	echo "Finished ${i}"	
+	echo
+	echo
+	
+
+done
+
+
+
+#For MultiTwoLevel
+for i in {0..100..5}
+do
+	if [ $i -eq 0 ]
+	then
+		i=1
+	fi
+
+
+		
+	echo "Running ${i}"	
+	java -cp ".:sqlite-jdbc-3.34.0.jar" src/Main MultiTwoLevel $i
+	echo "Finished ${i}"	
+	echo
+	echo
+	
+done

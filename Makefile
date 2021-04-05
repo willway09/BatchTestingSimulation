@@ -7,3 +7,6 @@ clean:
 	
 zip:
 	zip out.zip *
+
+test: src/RndCheck.java
+	javac src/RndCheck.java

@@ -188,14 +188,14 @@ class Main {
 		sql = "ATTACH \"file/data.db\" AS external;";
 		stmt.executeUpdate(sql);
 
-		/*sql = "CREATE TABLE external.TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);";
+		sql = "CREATE TABLE external.TwoLevel (n INT, p REAL, mean REAL, stdDev REAL);";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE external.MultiLevel (n INT, p REAL, m INT, mean REAL, stdDev REAL);";
 		stmt.executeUpdate(sql);
 
 		sql = "CREATE TABLE external.MultiTwoLevel (n INT, p REAL, r INT, mean REAL, stdDev REAL);";
-		stmt.executeUpdate(sql);*/
+		stmt.executeUpdate(sql);
 
 		sql = "BEGIN;INSERT INTO external.TwoLevel SELECT * FROM TwoLevel;COMMIT;";
 		stmt.executeUpdate(sql);

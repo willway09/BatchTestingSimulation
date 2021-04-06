@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jbooleanArray JNICALL Java_src_Rnd_createShuffledArray
   (JNIEnv *, jobject, jint, jdouble);
 
+/*
+ * Class:     src_Rnd
+ * Method:    generateRandomArray
+ * Signature: (I)[F
+ */
+JNIEXPORT jfloatArray JNICALL Java_src_Rnd_generateRandomArray
+  (JNIEnv *, jclass, jint);
+
 #ifdef __cplusplus
 }
 #endif

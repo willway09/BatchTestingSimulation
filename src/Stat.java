@@ -12,7 +12,7 @@ class Stat {
 			sum += diff * diff;
 		}
 
-		stDiff = Math.sqrt(sum / values.length);
+		stDiff = Math.sqrt(sum / (values.length - 1));
 		return stDiff;
 
 	}

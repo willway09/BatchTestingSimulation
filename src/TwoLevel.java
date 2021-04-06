@@ -22,18 +22,8 @@ class TwoLevel extends Batch {
 		}
 
 
-		for(long i : repetitionValues) {
-			System.out.print(i);
-			System.out.print(",");
-		}
-
-
 		double mean = Stat.average(repetitionValues);
 		double stdDev = Stat.standardDeviation(repetitionValues, mean);
-
-		System.out.print(mean);
-		System.out.print(",");
-		System.out.println(stdDev);
 
 		//out.write("" + N + ", " + n + ", " + p + ", " + mean + ", " + stdDev + "\n");
 		out.setInt(1, n);
@@ -42,7 +32,7 @@ class TwoLevel extends Batch {
 		out.setDouble(4, stdDev);
 
 		//UNCOMMENT ME!!!!!!!!!!!!
-		//out.executeUpdate();
+		out.executeUpdate();
 
 	}
 
